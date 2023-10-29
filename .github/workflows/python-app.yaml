@@ -60,7 +60,7 @@ jobs:
     - name: Security Scan with Trivy
       run: |
         trivy --exit-code 0 --severity HIGH,CRITICAL docker.io/sametustaoglu/python-app:${{ github.sha }} > trivy_report.txt
-      working-directory: /github/workspace
+      working-directory: .
 
     - name: Upload Report to S3
       uses: aws-actions/configure-aws-credentials@v1
@@ -72,7 +72,7 @@ jobs:
     - name: Upload Report
       run: |
         aws s3 cp trivy_report.txt s3://samet-trivy/trivy_report_${{ github.sha }}.txt
-      working-directory: /github/workspace
+      working-directory: .
   
 
 
