@@ -39,28 +39,28 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # - name: Generate tarball from image
-    #   run: |
-    #     docker pull docker.io/sametustaoglu/python-app:${{ github.sha }}
-    #     docker save -o vuln-image.tar docker.io/sametustaoglu/python-app:${{ github.sha }}
+    - name: Generate tarball from image
+      run: |
+        docker pull docker.io/sametustaoglu/python-app:${{ github.sha }}
+        docker save -o vuln-image.tar docker.io/sametustaoglu/python-app:${{ github.sha }}
         
-    # - name: Run Trivy vulnerability scanner in tarball mode
-    #   uses: aquasecurity/trivy-action@master
-    #   with:
-    #     input: /github/workspace/vuln-image.tar
-    #     severity: 'CRITICAL,HIGH'
+    - name: Run Trivy vulnerability scanner in tarball mode
+      uses: aquasecurity/trivy-action@master
+      with:
+        input: /github/workspace/vuln-image.tar
+        severity: 'CRITICAL,HIGH'
 
-    - name: Install Trivy
-      run: |
-        wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
-        tar zxvf trivy_0.18.3_Linux-64bit.tar.gz
-        sudo mv trivy /usr/local/bin/
-      shell: bash
+    # - name: Install Trivy
+    #   run: |
+    #     wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
+    #     tar zxvf trivy_0.18.3_Linux-64bit.tar.gz
+    #     sudo mv trivy /usr/local/bin/
+    #   shell: bash
 
-    - name: Security Scan with Trivy
-      run: |
-        trivy --exit-code 0 --severity HIGH,CRITICAL sametustaoglu/python-app:${{ github.sha }} > trivy_report.txt
-      working-directory: .
+    # - name: Security Scan with Trivy
+    #   run: |
+    #     trivy --exit-code 0 --severity HIGH,CRITICAL sametustaoglu/python-app:${{ github.sha }} > trivy_report.txt
+    #   working-directory: .
 
     - name: Upload Report to S3
       uses: aws-actions/configure-aws-credentials@v1
