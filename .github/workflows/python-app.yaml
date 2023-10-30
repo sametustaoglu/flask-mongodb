@@ -49,6 +49,8 @@ jobs:
       with:
         input: /github/workspace/vuln-image.tar
         severity: 'CRITICAL,HIGH'
+        format: 'sarif'
+        output: '/github/workspace/trivy-results.sarif'
 
     # - name: Install Trivy
     #   run: |
@@ -71,7 +73,7 @@ jobs:
 
     - name: Upload Report
       run: |
-        aws s3 cp trivy_report.txt s3://samet-trivy/trivy_report_${{ github.sha }}.txt
+        aws s3 cp /github/workspace/trivy-results.sarif s3://samet-trivy/trivy-results._${{ github.sha }}sarif
       working-directory: .
   
 
