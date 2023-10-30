@@ -49,44 +49,9 @@ jobs:
       with:
         input: /github/workspace/vuln-image.tar
         severity: 'CRITICAL,HIGH'
-        format: 'sarif'
-        output: '/github/workspace/trivy-results.sarif'
 
-    # - name: Install Trivy
-    #   run: |
-    #     wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.tar.gz
-    #     tar zxvf trivy_0.18.3_Linux-64bit.tar.gz
-    #     sudo mv trivy /usr/local/bin/
-    #   shell: bash
 
-    # - name: Security Scan with Trivy
-    #   run: |
-    #     trivy --exit-code 0 --severity HIGH,CRITICAL sametustaoglu/python-app:${{ github.sha }} > trivy_report.txt
-    #   working-directory: .
-
-    - name: Install AWS CLI
-      uses: unfor19/install-aws-cli-action@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-1
-
-    # - name: Set up Python and AWS CLI
-    #   uses: actions/setup-python@v2
-    #   with:
-    #     python-version: 3.8
-    #     architecture: x64   
-
-    # - name: Configure AWS CLI
-    #   run: |
-    #     aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws configure set region eu-west-1  
-
-    - name: Upload Report
-      run: |
-        aws s3 cp /github/workspace/trivy-results.sarif s3://samet-trivy/trivy-results._${{ github.sha }}sarif
-      working-directory: .
+ 
   
 
 
