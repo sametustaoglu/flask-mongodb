@@ -59,7 +59,7 @@ jobs:
 
     - name: Security Scan with Trivy
       run: |
-        trivy --exit-code 0 --severity HIGH,CRITICAL docker.io/sametustaoglu/python-app:${{ github.sha }} > trivy_report.txt
+        trivy --exit-code 0 --severity HIGH,CRITICAL sametustaoglu/python-app:${{ github.sha }} > trivy_report.txt
       working-directory: .
 
     - name: Upload Report to S3
