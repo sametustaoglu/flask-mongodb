@@ -1,16 +1,18 @@
 from flask import Flask, render_template, redirect
 from pymongo import MongoClient
 from classes import *
+import os
 
 # config system
 app = Flask(__name__)
 app.config.update(dict(SECRET_KEY='yoursecretkey'))
 # client = MongoClient('localhost:27017')
 # db = client.TaskManager
+mongodb_connection_url = os.getenv("MONGODB_CONNECTION_URL")
+# mongo_uri = "mongodb://mongodb:27017/TaskManager"
 
-mongo_uri = "mongodb://mongodb:27017/TaskManager"
-client = MongoClient(mongo_uri)
-
+client = MongoClient(mongodb_connection_url)
+db = client.TaskManager
 # MongoDB veritabanını seç
 db = client.get_database()
 
